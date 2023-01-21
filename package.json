@@ -12,5 +12,8 @@
   },
   "dependencies": {
     "firebase": "^9.16.0"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
