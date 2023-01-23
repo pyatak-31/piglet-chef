@@ -7,33 +7,37 @@ import layout from "nuxt/dist/app/components/layout";
                 Войти
             </ui-title>
 
-            <ui-input
-                id="email"
-                type="text"
-                class="login-form__el"
-                label="Email"
-                placeholder="Введите email"
-                required
-                v-model="data.email"
-            />
-
-            <ui-input
-                id="password"
-                type="password"
-                class="login-form__el"
-                label="Пароль"
-                placeholder="Введите пароль"
-                required
-                v-model="data.password"
-            />
-            <span v-if="isLoading">....</span>
+            <app-form @on-submit="login">
+                <ui-input
+                    id="email"
+                    type="text"
+                    class="login-form__el"
+                    label="Email"
+                    placeholder="Введите email"
+                    required
+                    v-model="data.email"
+                />
     
-            <span v-if="error">{{ error }}</span>
-    
-            <ui-button
-                :disabled="isEmptyData"
-                @click="login"
-            >login</ui-button>
+                <ui-input
+                    id="password"
+                    type="password"
+                    class="login-form__el"
+                    label="Пароль"
+                    placeholder="Введите пароль"
+                    required
+                    v-model="data.password"
+                />
+                <span v-if="isLoading">....</span>
+        
+                <span v-if="error">{{ error }}</span>
+        
+                <ui-button
+                    type="submit"
+                    :disabled="isEmptyData"
+                >
+                    Войти
+                </ui-button>
+            </app-form>
         </div>
     </NuxtLayout>
 </template>
