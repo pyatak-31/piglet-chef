@@ -6,13 +6,26 @@ import layout from "nuxt/dist/app/components/layout";
             <ui-title rank="1">
                 Войти
             </ui-title>
-            <div>
-                <input type="text" v-model="data.email">
-            </div>
-    
-            <div>
-                <input type="text" v-model="data.password">
-            </div>
+            
+            <ui-input
+                id="email"
+                type="text"
+                class="login-form__el"
+                label="Email"
+                placeholder="Введите email"
+                required
+                v-model="data.email"
+            />
+
+            <ui-input
+                id="password"
+                type="password"
+                class="login-form__el"
+                label="Пароль"
+                placeholder="Введите пароль"
+                required
+                v-model="data.password"
+            />
             <span v-if="isLoading">....</span>
             <p v-if="token">
                 {{ token }}
