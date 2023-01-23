@@ -20,12 +20,7 @@ export const useAuth = () => {
     const login = async () => {
         await authStore.login(data.value);
         if (!hasError.value) {
-            console.log(1);
-            // const tok = useCookie('tok');
-            // tok.value = token.value
-            // useCookie(token.value);
-            // useCookie("rt", data.refreshToken);
-            // router.push({ path: '/' });
+            router.push({ path: '/' });
         }
     };
 

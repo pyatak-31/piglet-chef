@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: env(safe-area-inset-top, 12px);
+    padding-right: env(safe-area-inset-right, 12px);
+    padding-bottom: env(safe-area-inset-bottom, 12px);
+    padding-left: env(safe-area-inset-left, 12px);
+}
+
+:focus,
+:active {
+    outline: none;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+a:-webkit-any-link {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    object-fit: cover;
+    vertical-align: top;
+}
+
+img,
+svg {
+    width: 100%;
+    height: auto;
+}
+
+address {
+    font-style: normal;
+}
+
+input::-ms-clear {
+	display: none;
+}
+
+button, input[type="submit"] {
+    display: inline-block;
+    box-shadow: none;
+    background-color: transparent;
+    background: none;
+    cursor: pointer;
+}
+
+input:focus, input:active,
+button:focus, button:active {
+    outline: none;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+
+i {
+    font-style: normal;
+}

@@ -1,0 +1,35 @@
+// === FONTS ===
+// @font-face {
+//     font-family: 'Raleway';
+//     font-display: swap;
+//     src: url('@/assets/fonts/Raleway-Regular/Raleway-Regular.woff2') format('woff2'),
+//         url('@/assets/fonts/Raleway-Regular/Raleway-Regular.woff') format('woff'),
+//         url('@/assets/fonts/Raleway-Regular/Raleway-Regular.ttf') format('truetype');
+//     font-weight: 400;
+// }
+
+// @font-face {
+//     font-family: 'Raleway';
+//     font-display: swap;
+//     src: url('@/assets/fonts/Raleway-Bold/Raleway-Bold.woff2') format('woff2'),
+//         url('@/assets/fonts/Raleway-Bold/Raleway-Bold.woff') format('woff'),
+//         url('@/assets/fonts/Raleway-Bold/Raleway-Bold.ttf') format('truetype');
+//     font-weight: 700;
+// }
+
+@font-face {
+    font-family: 'Montserrat';
+    font-display: swap;
+    src: url('@/assets/fonts/Montserrat-Regular.woff2') format('woff2'),
+        url('@/assets/fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-display: swap;
+    src: url('@/assets/fonts/Montserrat-Bold.woff2') format('woff2'),
+        url('@/assets/fonts/Montserrat-Bold.ttf') format('truetype');
+    font-weight: 700;
+}
+

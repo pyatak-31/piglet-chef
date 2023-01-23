@@ -12,4 +12,13 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'vite-plugin-vue-type-imports/nuxt',
     ],
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: '@import "@/assets/scss/app.scss";',
+                },
+            },
+        },
+    },
 });
