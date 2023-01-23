@@ -10,8 +10,8 @@ export const useAuth = () => {
     const error = computed(() => authStore.error);
     
     const data = ref({
-        email: '1@m.ru',
-        password: '123456',
+        email: '',
+        password: '',
     });
     
     const isEmptyData = computed(() => !data.value.email.length || !data.value.password.length);

@@ -2,12 +2,15 @@ import layout from "nuxt/dist/app/components/layout";
 
 <template>
     <NuxtLayout name="auth">
-        <div>
+        <div class="login">
             <ui-title rank="1">
                 Войти
             </ui-title>
 
-            <app-form @on-submit="login">
+            <app-form
+                :is-loading="isLoading"
+                @on-submit="login"
+            >
                 <ui-input
                     id="email"
                     type="text"
@@ -27,7 +30,6 @@ import layout from "nuxt/dist/app/components/layout";
                     required
                     v-model="data.password"
                 />
-                <span v-if="isLoading">....</span>
         
                 <span v-if="error">{{ error }}</span>
         
@@ -37,19 +39,36 @@ import layout from "nuxt/dist/app/components/layout";
                 >
                     Войти
                 </ui-button>
+
+                <ui-button
+                    theme="success"
+                    size="default"
+                    outline
+                    rounded
+                    @on-click="addValidData"
+                >
+                    <template #left-icon>
+                        <app-icon name="flask" />
+                    </template>
+                </ui-button>
             </app-form>
         </div>
     </NuxtLayout>
 </template>
 
+<script lang="ts">export default { name: 'LoginPage' }</script>
+
 <script setup lang="ts">
     definePageMeta({ middleware: ["auth"], layout: false });
-    const { data, error, isLoading, isEmptyData, login } = useAuth()
-    // login()
+    const { data, error, isLoading, isEmptyData, login } = useAuth();
+    const addValidData = () => {
+        data.value = {
+            email: '1@m.ru',
+            password: '123456',
+        }
+    }
 </script>
 
-<style scoped lang="scss">
-    .login {
-        @include font(black, 25px, 27px, 400);
-    }
+<style lang="scss">
+    
 </style>

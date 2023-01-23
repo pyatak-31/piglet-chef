@@ -5,7 +5,7 @@
     >
         <slot />
 
-        <page-loader
+        <app-loader
             class="form__loader"
             v-if="isLoading"
         />
