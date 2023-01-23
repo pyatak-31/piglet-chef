@@ -8,12 +8,17 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "^3.0.0"
-  },
-  "dependencies": {
-    "firebase": "^9.16.0"
+    "nuxt": "^3.0.0",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
+    "vite-plugin-vue-type-imports": "^0.2.4"
   },
   "overrides": {
     "vue": "latest"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.6",
+    "jwt-decode": "^3.1.2",
+    "pinia": "^2.0.28"
   }
 }
