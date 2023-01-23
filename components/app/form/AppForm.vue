@@ -38,16 +38,6 @@
     .form {
         position: relative;
 
-        // &__el {
-        //     & + & {
-        //         margin-top: 18px;
-        //     }
-        // }
-
-        // &__submit-btn {
-        //     margin-top: 30px;
-        // }
-
         &__loader {
             position: absolute;
             top: 50%;

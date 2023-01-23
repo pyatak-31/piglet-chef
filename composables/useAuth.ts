@@ -26,7 +26,7 @@ export const useAuth = () => {
     const logout = async () => {
         await authStore.logout();
         if (!hasError.value) {
-            // router.push({ path: '/login' });
+            router.push({ path: '/login' });
         }
     };
 
