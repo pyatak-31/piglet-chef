@@ -6,7 +6,7 @@ import layout from "nuxt/dist/app/components/layout";
             <ui-title rank="1">
                 Войти
             </ui-title>
-            
+
             <ui-input
                 id="email"
                 type="text"
@@ -27,21 +27,20 @@ import layout from "nuxt/dist/app/components/layout";
                 v-model="data.password"
             />
             <span v-if="isLoading">....</span>
-            <p v-if="token">
-                {{ token }}
-            </p>
     
             <span v-if="error">{{ error }}</span>
     
-            <button @click="login">login</button>
-            <button @click="logout">logout</button>
+            <ui-button
+                :disabled="isEmptyData"
+                @click="login"
+            >login</ui-button>
         </div>
     </NuxtLayout>
 </template>
 
 <script setup lang="ts">
     definePageMeta({ middleware: ["auth"], layout: false });
-    const { data, error, token, isLoading, login, logout } = useAuth()
+    const { data, error, isLoading, isEmptyData, login } = useAuth()
     // login()
 </script>
 

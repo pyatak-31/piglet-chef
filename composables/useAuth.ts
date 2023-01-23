@@ -6,7 +6,6 @@ export const useAuth = () => {
     
     const token = computed(() => authStore.token)
     const isLoading = computed(() => authStore.isLoading);
-    // const errorMessage = computed(() => authStore.errorMessage);
     const hasError = computed(() => authStore.hasError);
     const error = computed(() => authStore.error);
     
