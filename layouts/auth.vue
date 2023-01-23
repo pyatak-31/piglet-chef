@@ -1,18 +1,18 @@
 <template>
-    <div class="auth-layout">
-        <div class="auth-layout__content-side">
+    <main class="auth-layout">
+        <section class="auth-layout__content-side">
             <slot />           
-        </div>
+        </section>
 
-        <div class="auth-layout__decor-side"></div>
-    </div>
+        <section class="auth-layout__decor-side"></section>
+    </main>
 </template>
 
 <script setup lang="ts">
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     .auth-layout {
         display: grid;
         grid-template-columns: 1fr 1fr;

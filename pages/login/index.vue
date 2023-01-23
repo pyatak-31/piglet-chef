@@ -3,7 +3,9 @@ import layout from "nuxt/dist/app/components/layout";
 <template>
     <NuxtLayout name="auth">
         <div>
-            <h1 class="login">Login</h1>
+            <ui-title rank="1">
+                Войти
+            </ui-title>
             <div>
                 <input type="text" v-model="data.email">
             </div>
