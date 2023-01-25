@@ -48,6 +48,8 @@
         theme: 'primary',
         size: 'default',
     });
+    
+    const emit = defineEmits(['onClick']);
 
     const slot = useSlots();
     const hasRightIcon = computed(() => Boolean(slot['right-icon']));
@@ -83,12 +85,9 @@
         return result;
     });
 
-    const emits = defineEmits<{
-        (e: 'onClick'): void
-    }>();
 
     const onClick = () => {
-        emits('onClick');
+        emit('onClick');
     };
 </script>
 

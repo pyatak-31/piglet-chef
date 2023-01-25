@@ -6,24 +6,22 @@
                 v-for="link in links"
                 :key="link.to"    
             >
-                <nuxt-link
+                <ui-link-menu
                     class="main-nav__link"
-                    :class="{ 'active': isParent(link.to) }"
                     :to="link.to"
-                    no-prefetch
-                    :exact="isMainPage(link.to)"
-                >
-                    {{ link.name }}
-                </nuxt-link>   
+                    :name="link.name"
+                    :icon-name="link.iconName"
+                />
             </li>
 
+
             <li class="main-nav__item">
-                <button
+                <ui-link-menu
                     class="main-nav__link"
-                    @click="logout"
-                >
-                    Logout
-                </button>   
+                    name="Выйти"
+                    icon-name="signOut"
+                    @on-click="logout"
+                />
             </li>
         </ul>
     </nav>
@@ -34,72 +32,40 @@
 <script setup lang="ts">
     import {} from '#app';
     
-    const emits = defineEmits<{
-        (e: 'logout'): void
-    }>()
+    const emit = defineEmits(['logout']);
 
     const links = [
         {
             name: 'Главная',
             to: '/',
+            iconName: 'forkKnife'
         },
         {
             name: 'Инструменты',
             to: '/tools',
-        },
-        {
-            name: 'Login',
-            to: '/login',
+            iconName: 'cookingPot'
         },
     ];
 
-    const route = useRoute()
-    const id = route.params.id;
-
-    const isMainPage = (routeItem: string) => {
-        return routeItem === '/';
-    }
-
-    const isParent = (routeItem: string) => {
-        if (routeItem === '/') {
-            return false;
-        } else if (route.fullPath.includes(routeItem)) {
-            return true;
-        }
-    };
-
-    const logout = () => {
-        emits('logout');
-    }
+    const logout = () => { emit('logout') };
 </script>
 
 <style lang="scss">
     .main-nav {
         position: sticky;
         top: 0;
-        padding: 30px;
-        background-color: rgb(227, 238, 233);
+        // background-color: rgb(227, 238, 233);
+        overflow: hidden;
 
         &__list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-            
         }
 
         &__link {
-            @include font($dark, 20px, 23px, 400);
-            transition: color $transition;
+            
 
-            &.nuxt-link-active {
-                color: $primary;
-            }
-
-            &--logout {
-                color: red;
-                border: none;
-            }
+           
         }
     }
 </style>

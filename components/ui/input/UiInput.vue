@@ -47,16 +47,14 @@
         type: 'text',
     });
 
-    const emits = defineEmits<{
-        (e: 'update:modelValue', value: string | number): void
-    }>()
+    const emit = defineEmits(['update:modelValue']);
 
     const onChange = (event: Event) => {
         let value: string | number = (event.target as HTMLInputElement).value;
         if (props.type === 'number') {
             value = Number(value);
         }
-        emits('update:modelValue', value);
+        emit('update:modelValue', value);
     };
 </script>
 

@@ -8,10 +8,12 @@ export default defineNuxtConfig({
             REFRESH_TOKEN: 'refresh-token',
         }
     },
+
     modules: [
         '@pinia/nuxt',
         'vite-plugin-vue-type-imports/nuxt',
     ],
+
     vite: {
         css: {
             preprocessorOptions: {
@@ -20,5 +22,12 @@ export default defineNuxtConfig({
                 },
             },
         },
+    },
+    
+    router: {
+        options: {
+            linkActiveClass: 'active',
+            linkExactActiveClass: 'active'
+        }
     },
 });

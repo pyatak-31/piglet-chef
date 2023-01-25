@@ -17,13 +17,9 @@
     }
     const props = defineProps<SidebarProps>();
 
-    const emits = defineEmits<{
-        (e: 'logout'): void
-    }>();
+    const emit = defineEmits(['logout']);
     
-    const logout = () => {
-        emits('logout');
-    };
+    const logout = () => { emit('logout') };
 </script>
 
 <style lang="scss">
@@ -31,6 +27,7 @@
 
     .main-sidebar {
         width: $width;
+        // padding-left: 30px;
         background-color: $white;
         box-shadow: 0 0 15px -15px $dark;
         will-change: width;

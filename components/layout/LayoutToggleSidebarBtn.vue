@@ -1,18 +1,16 @@
 <template>
-    <ui-button
+    <button
         class="toggle-menu-btn"
         :title="isOpenSidebar ? 'Закрыть' : 'Открыть'"
         :aria-label="isOpenSidebar ? 'Закрыть боковую панель' : 'Открыть боковую панель'"
-        @on-click="onToggle"
+        @click="onToggle"
     >
-        <template #left-icon>
-            <app-icon
-                class="toggle-menu-btn__icon"
-                :class="{ 'toggle-menu-btn__icon--close': !isOpenSidebar }"
-                name="carretLeft"
-            />
-        </template>
-    </ui-button>
+        <app-icon
+            class="toggle-menu-btn__icon"
+            :class="{ 'toggle-menu-btn__icon--close': !isOpenSidebar }"
+            name="carretLeft"
+        />
+    </button>
 </template>
 
 <script lang="ts">export default { name: 'LayoutToggleSidebarBtn' }</script>
@@ -26,23 +24,26 @@
 
     const props = defineProps<SidebarProps>();
     
-    const emits = defineEmits<{
-        (e: 'onToggle'): void
-    }>();
+    const emit = defineEmits(['onToggle']);
 
-    const onToggle = () => {
-        emits('onToggle');
-    }
+    const onToggle = () => { emit('onToggle') };
 </script>
 
 <style scoped lang="scss">
     .toggle-menu-btn {
         width: 30px;
-        padding: 0;
-        border-radius: 0;
+        background-color: $primary;
+        color: $white;
+        transition: box-shadow .3s, background-color .3s;
+
+        &:hover,
+        &:focus {
+            background-color: $primary-hover;
+            box-shadow: $shadow-primary;
+        }
 
         &__icon {
-            transition: transform .3s;
+            transition: transform .5s;
 
             &--close {
                 transform: rotateY(180deg);

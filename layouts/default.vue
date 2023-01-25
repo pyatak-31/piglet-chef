@@ -53,6 +53,7 @@ import LayoutToggleSidebarBtn from '~~/components/layout/LayoutToggleSidebarBtn.
         position: relative;
         display: flex;
         min-height: 100vh;
+        padding-left: 30px;
 
         &__sidebar {
             position: relative;

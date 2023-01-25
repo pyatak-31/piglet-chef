@@ -25,13 +25,9 @@
         isLoading: false
     });
 
-    const emits = defineEmits<{
-        (e: 'onSubmit'): void
-    }>();
+    const emit = defineEmits(['onSubmit']);
 
-    const onSubmit = () => {
-        emits('onSubmit');
-    };
+    const onSubmit = () => { emit('onSubmit') };
 </script>
 
 <style lang="scss">
