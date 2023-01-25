@@ -48,10 +48,7 @@
                 @on-click="addValidData"
             >
                 <template #left-icon>
-                    <app-icon
-                        name="flask"
-                        :ariaLabelledby="ariaLabeledbyValue"
-                    />
+                    <app-icon name="flask" />
                 </template>
             </ui-button>
         </div>
@@ -63,12 +60,6 @@
 <script setup lang="ts">
     import {} from '#app';
     const { data, error, isLoading, isEmptyData, login } = useAuth();
-
-    const ariaLabeledbyValue = ref({
-        id: 'valid_data',
-        title: 'Колба с жидким веществом'
-    });
-
     const addValidData = () => {
         data.value = {
             email: 'admin@mail.ru',

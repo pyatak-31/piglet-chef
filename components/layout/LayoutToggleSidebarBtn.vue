@@ -10,7 +10,6 @@
                 class="toggle-menu-btn__icon"
                 :class="{ 'toggle-menu-btn__icon--close': !isOpenSidebar }"
                 name="carretLeft"
-                :ariaLabelledby="ariaLabeledbyValue"
             />
         </template>
     </ui-button>
@@ -30,12 +29,6 @@
     const emits = defineEmits<{
         (e: 'onToggle'): void
     }>();
-    
-    const ariaLabeledbyValue = computed(() => ({
-        id: 'toggle_sidebar_icon',
-        title: props.isOpenSidebar ? 'Стрелка влево' : 'Стрелка вправо'
-    }));
-
 
     const onToggle = () => {
         emits('onToggle');
