@@ -1,12 +1,19 @@
 <template>
-    <div class="main-layout" :key="$route.fullPath">
+    <div
+        class="main-layout"
+        :key="$route.fullPath"
+    >
         <NuxtLoadingIndicator color="red" />
         
-        <button class="toggle-menu-btn" @click="toggleMenu">1</button>
+        <layout-toggle-sidebar-btn
+            class="main-layout__toggle-menu-btn"
+            :is-open-sidebar="isOpenSidebar" 
+            @on-toggle="toggleMenu"
+        />
         
         <layout-sidebar
             class="main-layout__sidebar"
-            :isOpenMenu="isOpenMenu"
+            :is-open-sidebar="isOpenSidebar"
             @logout="logout"
         />
        
@@ -17,15 +24,17 @@
 </template>
 
 <script lang="ts" >
-    export default { name: 'MainLayout' } 
+import LayoutToggleSidebarBtn from '~~/components/layout/LayoutToggleSidebarBtn.vue';
+    export default {
+  components: { LayoutToggleSidebarBtn }, name: 'MainLayout' } 
 </script>
 
 <script setup lang="ts">
     const { logout } = useAuth();
     
-    const isOpenMenu = ref(true);
+    const isOpenSidebar = ref(true);
     const toggleMenu = () => {
-        isOpenMenu.value = !isOpenMenu.value;
+        isOpenSidebar.value = !isOpenSidebar.value;
     };
 
     
@@ -55,15 +64,13 @@
             background-color: $main-bg;
             min-height: 150vh;
         }
-    }
 
-    .toggle-menu-btn {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1;
-        width: 30px;
-        height: 100%;
-        background-color: $primary;
+        &__toggle-menu-btn {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
     }
 </style>

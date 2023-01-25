@@ -2,25 +2,28 @@
     <Transition name="main-sidebar">
         <aside
             class="main-sidebar"  
-            v-if="isOpenMenu"
+            v-if="isOpenSidebar"
         >
             <layout-navigation @logout="logout" />
         </aside>
     </Transition>
 </template>
 
+<script lang="ts">export default { name: 'LayoutSidebar' }</script>
+
 <script setup lang="ts">
-    interface Sidebar {
-        isOpenMenu: boolean;
+    interface SidebarProps {
+        isOpenSidebar: boolean;
     }
-    const props = defineProps<Sidebar>();
+    const props = defineProps<SidebarProps>();
 
     const emits = defineEmits<{
         (e: 'logout'): void
     }>();
+    
     const logout = () => {
         emits('logout');
-    }
+    };
 </script>
 
 <style lang="scss">

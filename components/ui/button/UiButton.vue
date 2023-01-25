@@ -3,6 +3,8 @@
         :type="type"
         :class="classList"
         :disabled="disabled"
+        :title="title"
+        :ariaLabel="ariaLabel"
         @click="onClick"   
     >
         <i
@@ -37,6 +39,8 @@
         size?: Size;
         rounded?: boolean;
         outline?: boolean;
+        title?: string;
+        ariaLabel?: string;
     }
 
     const props = withDefaults(defineProps<TitleProps>(), {

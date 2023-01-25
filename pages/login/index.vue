@@ -1,6 +1,10 @@
 import layout from "nuxt/dist/app/components/layout";
 
 <template>
+    <Head>
+      <Title>Войти</Title>
+      <Meta name="description" content="Войти в приложение" />
+    </Head>
     <NuxtLayout name="auth">
         <div class="login">
             <ui-title rank="1">

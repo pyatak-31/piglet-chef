@@ -29,6 +29,8 @@
     </nav>
 </template>
 
+<script lang="ts">export default { name: 'LayoutNavigation' }</script>
+
 <script setup lang="ts">
     import {} from '#app';
     
@@ -42,8 +44,8 @@
             to: '/',
         },
         {
-            name: 'Товары',
-            to: '/products',
+            name: 'Инструменты',
+            to: '/tools',
         },
         {
             name: 'Login',

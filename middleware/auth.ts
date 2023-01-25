@@ -7,7 +7,7 @@ import { DecodeToken } from "~~/type/auth.interface";
 const isValidToken = (token: string) => {
     const jwtData = jwtDecode<DecodeToken>(token) || {};
     const expires = jwtData.exp || 0;
-    console.log(expires);
+    console.log(`Токен умрети через: ${ (expires - (new Date().getTime() / 1000)).toFixed() } сек`);
     return (new Date().getTime() / 1000) < expires;
 };
 

@@ -44,10 +44,14 @@
                 size="default"
                 outline
                 rounded
+                aria-label="Вставить данные авторизации в форму"
                 @on-click="addValidData"
             >
                 <template #left-icon>
-                    <app-icon name="flask" />
+                    <app-icon
+                        name="flask"
+                        :ariaLabelledby="ariaLabeledbyValue"
+                    />
                 </template>
             </ui-button>
         </div>
@@ -59,9 +63,15 @@
 <script setup lang="ts">
     import {} from '#app';
     const { data, error, isLoading, isEmptyData, login } = useAuth();
+
+    const ariaLabeledbyValue = ref({
+        id: 'valid_data',
+        title: 'Колба с жидким веществом'
+    });
+
     const addValidData = () => {
         data.value = {
-            email: '1@m.ru',
+            email: 'admin@mail.ru',
             password: '123456',
         }
     };
