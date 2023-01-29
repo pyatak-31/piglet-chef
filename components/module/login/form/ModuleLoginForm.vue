@@ -55,7 +55,7 @@
     </app-form>
 </template>
 
-<script lang="ts">export default { name: 'SnippetLoginForm' }</script>
+<script lang="ts">export default { name: 'ModuleLoginForm' }</script>
 
 <script setup lang="ts">
     import {} from '#app';

@@ -11,14 +11,17 @@
 @import "./core/common";
 
 
-.page-enter-active,
+.page-enter-active {
+  transition: opacity .5s;
+}
 .page-leave-active {
-  transition: all 0.4s;
+  transition: opacity .8s, transform .5s;
 }
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-  filter: blur(1rem);
+  // filter: blur(1rem);
+  transform: translateX(100%);
 }
 
 .layout-enter-active,
@@ -27,5 +30,24 @@
 }
 .layout-enter-from,
 .layout-leave-to {
-  filter: grayscale(1);
+  opacity: 0;
+  // transform: translateX(100%);
 }
+
+// .page-enter-active,
+// .page-leave-active {
+//   position: absolute;
+//   transition: all 0.85s ease;
+// }
+// .page-enter-from {
+//   left: -100%;
+// }
+// .page-enter-to {
+//   left: 0%;
+// }
+// .page-leave-from {
+//   transform: scale(1);
+// }
+// .page-leave-to {
+//   transform: scale(0.8);
+// }

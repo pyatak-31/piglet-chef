@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { LoginRequestData, LoginResponseData, RefreshResponseData } from '~~/type/auth.interface';
-import { FirebaseError } from '~~/type/error.interface';
+import jwtDecode from "jwt-decode";
+import { DecodeToken } from "~~/type/auth.interface";
 
 export const useAuthStore = defineStore('auth', () => {
     const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
@@ -15,6 +16,18 @@ export const useAuthStore = defineStore('auth', () => {
     // getters
     const isAuth =  computed<boolean>(() => Boolean(token.value));
 
+    const isValidToken = computed(() => {
+        if (token.value) {
+            const jwtData = jwtDecode<DecodeToken>(token.value) || {};
+            const expires = jwtData.exp || 0;
+            console.log(`Токен умрет через: ${ (expires - (new Date().getTime() / 1000)).toFixed() } сек`);
+            return (new Date().getTime() / 1000) < expires;
+        } 
+        
+        return false;
+    });
+
+    // actions
     const login = async (body: LoginRequestData) => {
         startLoading();
         const { data, error: responseError } = await useFetch<LoginResponseData>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword`, {
@@ -65,5 +78,11 @@ export const useAuthStore = defineStore('auth', () => {
         clearError();
     };
 
-    return { token, error, hasError, isLoading, isAuth, login, logout, refresh };
+    const checkToken = async () => {
+        if (!isValidToken.value) {
+            await refresh();
+        }
+    };
+
+    return { token, error, hasError, isLoading, isAuth, isValidToken, login, logout, refresh, checkToken };
 });

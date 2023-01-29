@@ -5,8 +5,7 @@
             :id="id"
             class="form-input__field"
             :class="{ 'form-input__field--error': error }"
-            :placeholder="placeholder"
-            :required="required"
+            v-bind="$attrs"
             :value="modelValue"
             @input="onChange($event)"
         >
@@ -34,11 +33,10 @@
     type InputType = 'text' | 'number' | 'password' | 'email' | 'url' | 'tel';
 
     interface inputProps {
-        id: string;
+        id?: string;
         label?: string;
         type?: InputType;
         modelValue: string | number;
-        placeholder?: string;
         required?: boolean,
         error?: string;
     };

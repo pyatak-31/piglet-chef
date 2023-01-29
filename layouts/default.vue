@@ -18,16 +18,13 @@
         />
        
         <main class="main-layout__content">
-            <slot />
+            <!-- <slot /> -->
+            <NuxtPage />
         </main>
     </div>
 </template>
 
-<script lang="ts" >
-import LayoutToggleSidebarBtn from '~~/components/layout/LayoutToggleSidebarBtn.vue';
-    export default {
-  components: { LayoutToggleSidebarBtn }, name: 'MainLayout' } 
-</script>
+<script lang="ts">export default { name: 'MainLayout' }</script>
 
 <script setup lang="ts">
     const { logout } = useAuth();
@@ -36,16 +33,6 @@ import LayoutToggleSidebarBtn from '~~/components/layout/LayoutToggleSidebarBtn.
     const toggleMenu = () => {
         isOpenSidebar.value = !isOpenSidebar.value;
     };
-
-    
-// const nuxtApp = useNuxtApp();
-//   const loading = ref(false);
-//   nuxtApp.hook("page:start", () => {
-//     loading.value = true;
-//   });
-//   nuxtApp.hook("page:finish", () => {
-//     loading.value = false;
-//   });
 </script>
 
 <style lang="scss">

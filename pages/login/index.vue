@@ -1,25 +1,25 @@
 import layout from "nuxt/dist/app/components/layout";
 
 <template>
-    <Head>
-      <Title>Войти</Title>
-      <Meta name="description" content="Войти в приложение" />
-    </Head>
-    <NuxtLayout name="auth">
-        <div class="login">
-            <ui-title rank="1">
-                Войти
-            </ui-title>
+    <div class="login">
+        <ui-title rank="1">
+            Войти
+        </ui-title>
 
-            <snippet-login-form />
-        </div>
-    </NuxtLayout>
+        <module-login-form />
+    </div>
 </template>
 
 <script lang="ts">export default { name: 'LoginPage' }</script>
 
 <script setup lang="ts">
-    definePageMeta({ middleware: ["auth"], layout: false });
+    definePageMeta({ middleware: ["auth"], layout: 'auth' });
+    useHead({
+        title: 'Войти',
+        meta: [
+            { name: 'description', content: 'Войти в приложение' }
+        ],
+    });
 </script>
 
 <style lang="scss">
