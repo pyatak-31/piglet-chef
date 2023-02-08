@@ -41,16 +41,16 @@
         display: flex;
         min-height: 100vh;
         padding-left: 30px;
-
+        
         &__sidebar {
             position: relative;
         }
-
+        
         &__content {
             flex: 1;
             padding: 30px;
             background-color: $main-bg;
-            min-height: 150vh;
+            overflow-x: auto;
         }
 
         &__toggle-menu-btn {

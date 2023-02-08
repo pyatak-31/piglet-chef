@@ -1,10 +1,12 @@
 import { useToolsStore } from '~~/store/tools';
+import { sortParams } from '~~/type/tools';
 
 export const useTools = () => {
     const toolsStore = useToolsStore();
 
-    const tools = computed(() => toolsStore.tools);
+    const tools = computed(() => toolsStore.toolsSorted);
     const sortOrder = computed(() => toolsStore.sortOrder);
+    const sortField = computed(() => toolsStore.sortField);
 
     const isLoading = computed(() => toolsStore.isLoading);
 
@@ -14,9 +16,9 @@ export const useTools = () => {
     
     const create = () => {
         toolsStore.create({
-            name: 'Нож',
-            description: 'Выбор мастеров',
-            images: {
+            name: 'Кастрюля',
+            description: 'Для лохов',
+            image: {
                 small: 'https://i.ibb.co/2k5j7gM/terka.jpg',
                 medium: 'https://i.ibb.co/bK7rgzv/terka.jpg',
                 full: 'img src="https://i.ibb.co/bK7rgzv/terka.jpg'
@@ -25,9 +27,9 @@ export const useTools = () => {
         });
     };
 
-    const sortBy = (params) => {
+    const sortBy = (params: sortParams) => {
         toolsStore.setSortParams(params);
     };
 
-    return { tools, isLoading, sortOrder, loadTools, create, sortBy }
+    return { tools, isLoading, sortOrder, sortField, loadTools, create, sortBy }
 };

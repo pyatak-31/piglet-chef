@@ -1,13 +1,17 @@
 <template>
-    <div class="table__column">
+    <td class="table-column">
         <slot></slot>
-    </div>
+    </td>
 </template>
 
-<script setup lang="ts">
+<script setup>
 
 </script>
 
-<style lang="scss">
-
+<style scoped lang="scss">
+    .table-column {
+        display: inline-block;
+        padding: 20px;
+        @include font($dark, 16px, 20px, 400);
+    }
 </style>

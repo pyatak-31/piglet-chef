@@ -20,7 +20,7 @@
     const classList = () => {
         let result = `title title--${ props.rank }`
         if (props.hidden) {
-            result += ' visually-hidden';
+            result += ' title--hidden';
         }
        
         return result
@@ -68,6 +68,17 @@
         &--6 {
             @include font('', 16px, 19px, '');
             text-transform: uppercase;
+        }
+
+        &--hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+            clip: rect(0 0 0 0);
         }
     }
 </style>

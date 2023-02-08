@@ -1,21 +1,16 @@
 // === COMMON ===
-html {
-    width: auto;
-    margin-right: calc(-1 * (100vw - 100%));
-}
-
 body {
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+    @include scrollbar();
+    background-color: $white;
     
     &.locked {
         overflow: hidden;
     }
 }
 
-body {
-    // background-color: $white;
+* {
+	scrollbar-color: $primary #fff; /*Цвет скролла, цвет ползунка*/
+	scrollbar-width: thin; /*Толщина скролла thin, auto*/
 }
 
 .container {
@@ -24,15 +19,4 @@ body {
     margin: 0 auto; 
     padding-right: $container-padding;
     padding-left: $container-padding;
-}
-
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-    clip: rect(0 0 0 0);
 }

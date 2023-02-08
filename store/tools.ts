@@ -1,63 +1,47 @@
 import { defineStore } from 'pinia';
 import { CreateResponse } from '~~/type/FbDb.interface';
-import { ToolRecord } from '~~/type/tools.interface';
+import { SortOrder } from '~~/type/sorting';
+import { SortField, sortParams, ToolRecord } from '~~/type/tools';
 import { useAuthStore } from './auth';
 
-const convertDbResponse = (data: Object) => Object.entries(data).map(([id, value]) => ({...value, id}));
 export const useToolsStore = defineStore('tools', () => {
     const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
+    const { convertDbResponse } = useFirebase();
     const authStore = useAuthStore();
-    const { getErrorMessage } = useFirebaseAuth();
-
-    type SortField = 'name' | 'description';
-    type SortOrder = null | 'asc' | 'desc';
-
-    interface ToolsItem {
-        name: string;
-        description: string;
-        image: string;
-    };
 
     const tools = ref();
-    const sortField = ref<SortField>('name');
+    const sortField = ref<SortField>(null);
     const sortOrder = ref<SortOrder>(null);
 
     const toolsSorted = computed(() => {
-        if (sortOrder === null) {
-            return tools;
+        if (sortOrder.value == null || sortField.value == null) {
+            return tools.value;
         } else {
-            return tools.value.sort((a: ToolsItem, b:ToolsItem) => {
+            return JSON.parse(JSON.stringify(tools.value)).sort((a: ToolRecord, b:ToolRecord) => {
                 let modifier = 1;
                 if (sortOrder.value === 'desc') modifier = -1;
-                if (a[sortField.value] < b[sortField.value]) return -1 * modifier;
-                if (a[sortField.value] > b[sortField.value]) return 1 * modifier;
+                if (a[sortField.value!] < b[sortField.value!]) return -1 * modifier;
+                if (a[sortField.value!] > b[sortField.value!]) return 1 * modifier;
                 return 0;
             });
         }
     });
 
-    const setSortParams = (newSortField: SortField) => {
-        if (newSortField === sortField.value) {
-            changeSortOrder();
-        } else {
-            sortField.value = newSortField;
+    const setSortParams = (params: sortParams) => {
+        sortField.value = params.sortField;
+        sortOrder.value = params.sortOrder;
+        if (sortOrder.value === null) {
+            sortField.value = null;
         }
         console.log(sortOrder.value, sortField.value);
-    };
-
-    const changeSortOrder = () => {
-        switch (sortOrder.value) {
-            case null: sortOrder.value = 'asc'; break;
-            case 'asc': sortOrder.value = 'desc'; break;
-            case 'desc': sortOrder.value = null; break;
-        }
     };
 
     const fetchAll = async () => {
         try {
             startLoading();
-            const data = await $fetch<Array<ToolsItem>>('https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools.json');
+            const data = await $fetch<Array<ToolRecord>>('https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools.json');
             tools.value = convertDbResponse(data);
+            console.log(tools.value);
             return data;
         } catch (error) {
             throw new Error((error as Error).message);
@@ -79,5 +63,5 @@ export const useToolsStore = defineStore('tools', () => {
         return data;
     };
 
-    return { tools, toolsSorted, error, isLoading, sortOrder, setSortParams, fetchAll, create };
+    return { tools, toolsSorted, error, isLoading, sortOrder, sortField, setSortParams, fetchAll, create };
 });

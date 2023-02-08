@@ -1,11 +1,9 @@
 import { LoginRequestData, LoginResponseData } from "~~/type/auth.interface";
 import { FirebaseError } from "~~/type/error.interface";
 
-export const useFirebaseAuth = () => {
+export const useFirebase = () => {
     const config = useRuntimeConfig();
 
-   
-    
     const getErrorMessage = (error: Array<FirebaseError>) => {
         let answer = 'Не удалось определить ошибку';
         error.forEach(({ message }) => {
@@ -39,5 +37,7 @@ export const useFirebaseAuth = () => {
         return answer;
     };
 
-    return { getErrorMessage };
+    const convertDbResponse = (data: Object) => Object.entries(data).map(([id, value]) => ({ ...value, id }));
+
+    return { getErrorMessage, convertDbResponse };
 };

@@ -34,11 +34,13 @@ export default defineNuxtConfig({
         'vite-plugin-vue-type-imports/nuxt',
     ],
 
+    css: ["@/assets/scss/app.scss"],
+    
     vite: {
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: '@import "@/assets/scss/app.scss";',
+                    additionalData: '@import "@/assets/scss/global.scss";',
                 },
             },
         },
@@ -51,4 +53,7 @@ export default defineNuxtConfig({
         }
     },
 
+    experimental: {
+        inlineSSRStyles: false
+    },
 });

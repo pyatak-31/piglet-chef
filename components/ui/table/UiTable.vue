@@ -1,87 +1,86 @@
 <template>
-    <div class="table-wrapper">
-        <div class="table">
-            <div
-                class="table__head"
-                :style="{ 'grid-template-columns': columnsTemplates }"    
-            >
-                <div
-                    class="table__title"
-                    v-for="(title, index) in head"
-                    :key="index"    
-                >
-                    {{ title }}
-                </div>
-            </div>
+    <table class="table">
+            <thead class="table__header">
+                <ui-table-row :col-sizes="colSizes">
+                    <ui-table-head-item
+                    class="table__header-item"
+                    v-for="(headItem, index) in headItems"
+                    :key="index"
+                    :title="headItem.title"
+                    :sort="headItem.sort"
+                    :sort-field="sortField"
+                    :sort-order="sortOrder"
+                    @on-sort-by="sortBy"
+                    />
+                </ui-table-row>
+            </thead>
+        <tbody class="table__body">
             <slot />
-        </div>
-    </div>
+        </tbody>
+    </table>
 </template>
 
-<script lang="ts">export default { name: 'UiTable' }</script>
+<script lang="ts">export default { name: 'UiTable' };</script>
 
 <script setup lang="ts">
+    import { SortOrder } from '~~/type/sorting';
+
+    interface TableHeadItem {
+        title: string,
+        sort?: string,
+    };
+
     interface TableProps {
-        head?: Array<string>;
-        columnsTemplates?: string;
-    }
+        headItems: Array<TableHeadItem>,
+        sortField?: string | null,
+        colSizes: string,
+    };
 
     const props = defineProps<TableProps>();
+
+    const emit = defineEmits(['onSortBy']);
+
+    const sortOrder = ref<SortOrder>(null);
+
+    const sortBy = (sortField: string) => {
+        if (props.sortField === sortField) {
+            switch (sortOrder.value) {
+                case null: sortOrder.value = 'asc'; break;
+                case 'asc': sortOrder.value = 'desc'; break;
+                case 'desc': sortOrder.value = null; break;
+            }
+        } else {
+            sortOrder.value = 'asc';
+        }
+
+        emit('onSortBy', { sortField, sortOrder: sortOrder.value });
+    };
 </script>
 
 <style scoped lang="scss">
     .table {
+        @include scrollbar();
+        display: grid;
+        grid-template: 60px 1fr / 1fr;
         width: 100%;
-        margin-top: 15px;
-        margin-bottom: 40px;
-        background-color: #fff;
+        border-radius: 7px;
+        box-shadow: $shadow-1;
+        overflow: auto;
 
-        &-wrapper {
-            display: flex;
-            justify-content: center;
+        &__header {
+            position: sticky;
+            top: 0;
+            display: block;
+            background-color: $primary;
         }
 
-        &__head {
-            display: grid;
-            align-items: center;
-            column-gap: 10px;
-            padding: 5px 16px;
-            background-color: #fff;
-            border-bottom: 2px solid #eeeff4;
+        &__header-item {
+            text-align: left;
         }
 
-        &__row {
-            display: grid;
-            align-items: center;
-            column-gap: 10px;
-            padding: 5px 16px;
-            background-color: #fff;
-            border-bottom: 2px solid #eeeff4;
-            
-
-            // @media (min-width: $md) {
-            //     display: grid;
-            // }
-
-            &:last-child {
-                border-bottom: none;
-            }
-
-            &--center {
-                justify-content: center;
-            }
-        }
-
-        &__column {
-            position: relative;
-            padding-top: 15px; 
-            padding-bottom: 15px;
-
-            &-image {}
-
-            &-title {
-                margin-right: 5px;
-            }
+        &__body {
+            display: block;
+            background-color: $white;
         }
     }
 </style>

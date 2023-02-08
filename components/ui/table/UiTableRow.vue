@@ -1,22 +1,33 @@
 <template>
-    <div
-        class="table__row"
-        :style="{ 'grid-template-columns': columnsTemplates }"    
+    <tr
+        class="table-row"
+        :style="{ 'grid-template-columns': colSizes }"
     >
         <slot></slot>
-    </div>
+    </tr>
 </template>
 
-<script lang="ts">export default { name: 'UiTableRow' }</script>
+<script lang="ts">export default { name: 'UiTableRow' };</script>
 
 <script setup lang="ts">
     interface TableRowProps {
-        columnsTemplates?: string;
+        colSizes: string;
     }
 
     const props = defineProps<TableRowProps>();
 </script>
 
 <style lang="scss">
-    // .tabler
+    .table-row {
+        display: grid;
+        transition: background-color .3s;
+
+        &:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        &:hover {
+            background-color: $primary-20;
+        }
+    }
 </style>

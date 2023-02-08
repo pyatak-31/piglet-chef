@@ -5,7 +5,7 @@ import { DecodeToken } from "~~/type/auth.interface";
 
 export const useAuthStore = defineStore('auth', () => {
     const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
-    const { getErrorMessage } = useFirebaseAuth();
+    const { getErrorMessage } = useFirebase();
     const config = useRuntimeConfig();
     const cookieAccessToken = useCookie(config.public.ACCESS_TOKEN);
     const cookieRefreshToken = useCookie(config.public.REFRESH_TOKEN);

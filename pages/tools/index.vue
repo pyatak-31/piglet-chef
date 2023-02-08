@@ -1,53 +1,25 @@
 <template>
-    <div>
-        <ui-title rank="1">
-            Инструменты
-        </ui-title>
-
-        <nuxt-link to="/tools/create">Create</nuxt-link>
+    <div class="tools">
+        <div class="tools__head">
+            <ui-title rank="1">
+                Инструменты
+            </ui-title>
+    
+            <nuxt-link to="/tools/create">
+                <ui-button theme="success" rounded>Добавить</ui-button>
+            </nuxt-link>
+        </div>
 
         <span v-if="isLoading">Load/.....</span>
-        <!-- <ul v-else>
-            <li v-for="tool in tools" :key="tool.name">
-                {{ tool.name }}
-            </li>
-        </ul> -->
-
-        <!-- <ui-table
-            :head="tableHeads"
-            :columns-templates="tableSizeColumns"
-        >
-            <ui-table-row
-                v-for="(tool, index) in tools"
-                :key="tool.name"
-                :columns-templates="tableSizeColumns"
-            >
-                <ui-table-column>
-                    {{ index + 1 }}
-                </ui-table-column>
-
-                <ui-table-column>
-                    {{ tool.name }}
-                </ui-table-column>
-
-                <ui-table-column>
-                    {{ tool.description }}
-                </ui-table-column>
-
-                <ui-table-column>
-                    <img :src="tool.images.small" alt="">
-                </ui-table-column>
-
-                <ui-table-column>
-                    action
-                </ui-table-column>
-            </ui-table-row>
-        </ui-table> -->
-        <module-tools-table></module-tools-table>
+      
+        <module-tools-table
+            class="tools__table"
+            v-else    
+        />
     </div>
 </template>
 
-<script lang="ts">export default { name: 'ToolsPage' }</script>
+<script lang="ts">export default { name: 'ToolsPage' };</script>
 
 <script setup lang="ts">
     definePageMeta({ middleware: ["auth"], pageTransition: { name: 'page' }});
@@ -59,6 +31,17 @@
     await loadTools();
 </script>
 
-<style >
+<style scoped lang="scss">
+    .tools {
 
+        &__head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &__table {
+            margin-top: 50px;
+        }
+    }
 </style>
