@@ -10,6 +10,7 @@ export const useToolsStore = defineStore('tools', () => {
     const authStore = useAuthStore();
 
     const tools = ref();
+    const tool = ref();
     const sortField = ref<SortField>(null);
     const sortOrder = ref<SortOrder>(null);
 
@@ -50,6 +51,19 @@ export const useToolsStore = defineStore('tools', () => {
         }
     };
 
+    const fetchOne = async (id: string) => {
+        try {
+            startLoading();
+            const data = await $fetch<ToolRecord>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools/${ id }.json`);
+            tool.value = data;
+            return data;
+        } catch (error) {
+            throw new Error((error as Error).message);
+        } finally {
+            completeLoading();
+        }
+    };
+
     const createTool = async (body: ToolRecord) => {
         await authStore.checkToken();
         
@@ -61,6 +75,27 @@ export const useToolsStore = defineStore('tools', () => {
             body
         });
         return data;
+    };
+
+    const editTool = async (id: string, body: ToolRecord) => {
+        try {
+            startLoading();
+            await authStore.checkToken();
+            
+            const data = await $fetch<CreateResponse>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools/${ id }.json`, {
+                method: 'PUT',
+                params: {
+                    auth: authStore.token
+                },
+                body
+            });
+            
+            return data;
+        } catch (error) {
+            throw new Error((error as Error).message);
+        } finally {
+            completeLoading();
+        }
     };
 
     const deleteTool = async (id: string) => {
@@ -82,5 +117,19 @@ export const useToolsStore = defineStore('tools', () => {
         }
     };
 
-    return { tools, toolsSorted, error, isLoading, sortOrder, sortField, setSortParams, fetchAll, createTool, deleteTool };
+    return {
+        tools,
+        tool,
+        toolsSorted,
+        error,
+        isLoading,
+        sortOrder,
+        sortField,
+        setSortParams,
+        fetchAll,
+        fetchOne,
+        createTool,
+        deleteTool,
+        editTool
+    };
 });

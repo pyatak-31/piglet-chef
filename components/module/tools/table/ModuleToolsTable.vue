@@ -43,6 +43,14 @@
                 >
                     X
                 </ui-button>
+
+                <nuxt-link :to="`/tools/edit/${ tool.id }`">
+                    <ui-button
+                        theme="info"
+                    >
+                        E
+                    </ui-button>
+                </nuxt-link>
             </ui-table-column>
         </ui-table-row>
     </ui-table>
@@ -52,7 +60,7 @@
 
 <script setup lang="ts">
     const { tools, isLoading, sortField, sortOrder, loadTools, sortBy, deleteToolAndLoadTools } = useTools();
-
+    
     const headItems = [
         { title: '#' },
         { title: 'Название', sort: 'name' },

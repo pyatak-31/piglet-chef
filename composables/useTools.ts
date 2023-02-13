@@ -6,6 +6,8 @@ export const useTools = () => {
     const router = useRouter();
 
     const tools = computed(() => toolsStore.toolsSorted);
+    const tool = computed(() => toolsStore.tool);
+    // const tool = computed(() => toolsStore.tool);
     const sortOrder = computed(() => toolsStore.sortOrder);
     const sortField = computed(() => toolsStore.sortField);
 
@@ -14,10 +16,20 @@ export const useTools = () => {
     const loadTools = async () => {
         await useLazyAsyncData(() => toolsStore.fetchAll());
     };
+
+    const loadTool = async (id: string) => {
+        await useLazyAsyncData(() => toolsStore.fetchOne(id));
+    };
     
     const createTool = async (body: ToolRecord) => {
         await toolsStore.createTool(body);
         router.push('/tools');
+    };
+
+    const editTool = async (id: string ,body: ToolRecord) => {
+        await toolsStore.editTool(id, body);
+        router.push('/tools');
+        
     };
 
     const deleteToolAndLoadTools = async (id: string) =>{
@@ -29,5 +41,17 @@ export const useTools = () => {
         toolsStore.setSortParams(params);
     };
 
-    return { tools, isLoading, sortOrder, sortField, loadTools, createTool, sortBy, deleteToolAndLoadTools }
+    return {
+        tools,
+        tool,
+        isLoading,
+        sortOrder,
+        sortField,
+        loadTools,
+        loadTool,
+        createTool,
+        sortBy,
+        deleteToolAndLoadTools,
+        editTool,
+    };
 };
