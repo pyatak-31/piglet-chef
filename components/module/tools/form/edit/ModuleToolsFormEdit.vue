@@ -8,32 +8,32 @@
             label="Название"
             placeholder="Введите название"
             required
-            v-model="toolData.name"
+            v-model.trim="toolData.name"
         />
 
         <ui-textarea
             label="Описание"
             placeholder="Введите описание"
             rows="10"
-            v-model="toolData.description"
+            v-model.trim="toolData.description"
         />
 
         <ui-input
             label="Малое изображение"
             placeholder="Введите адрес ссылки"
-            v-model="toolData.image.small"
+            v-model.trim="toolData.image.small"
         />
 
         <ui-input
             label="Среднее изображение"
             placeholder="Введите адрес ссылки"
-            v-model="toolData.image.medium"
+            v-model.trim="toolData.image.medium"
         />
 
         <ui-input
             label="Большое изображение"
             placeholder="Введите адрес ссылки"
-            v-model="toolData.image.full"
+            v-model.trim="toolData.image.full"
         />
 
         <div class="form-edit__buttons">

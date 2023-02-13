@@ -93,7 +93,7 @@
 
 <style scoped lang="scss">
     $padding: 8px 24px;
-    $padding-small: 4px 16px;
+    $padding-small: 5px 15px;
     $themes: (
         'primary': ($primary, $primary-hover, $shadow-primary),
         'success': ($success, $success-hover, $shadow-success),
@@ -161,7 +161,7 @@
         
         @include size('default', $padding, 16px, 28px, 24px);
         @include size('large', $padding, 19px, 33px, 24px);
-        @include size('small', $padding-small, 13px, 17px, 16px);
+        @include size('small', $padding-small, 13px, 17px, 20px);
         
         @each $theme, $params in $themes {
             @if $theme == 'light' {

@@ -7,32 +7,32 @@
             label="Название"
             placeholder="Введите название"
             required
-            v-model="newToolData.name"
+            v-model.trim="newToolData.name"
         />
 
         <ui-textarea
             label="Описание"
             placeholder="Введите описание"
             rows="10"
-            v-model="newToolData.description"
+            v-model.trim="newToolData.description"
         />
 
         <ui-input
             label="Малое изображение"
             placeholder="Введите адрес ссылки"
-            v-model="newToolData.image.small"
+            v-model.trim="newToolData.image.small"
         />
 
         <ui-input
             label="Среднее изображение"
             placeholder="Введите адрес ссылки"
-            v-model="newToolData.image.medium"
+            v-model.trim="newToolData.image.medium"
         />
 
         <ui-input
             label="Большое изображение"
             placeholder="Введите адрес ссылки"
-            v-model="newToolData.image.full"
+            v-model.trim="newToolData.image.full"
         />
 
         <div class="form-create__buttons">

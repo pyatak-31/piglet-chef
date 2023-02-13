@@ -25,7 +25,9 @@
                     >
                 </div>
 
-                <i v-else>
+                <i
+                class="tools-table__image-empty"
+                    v-else>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 1280 1280"
@@ -37,20 +39,30 @@
                 </i>
             </ui-table-column>
             <ui-table-column>
-                <ui-button
-                    theme="danger"
-                    @click="deleteToolAndLoadTools(tool.id)"
-                >
-                    X
-                </ui-button>
-
-                <nuxt-link :to="`/tools/edit/${ tool.id }`">
+                <div class="tools-table__buttons">
                     <ui-button
-                        theme="info"
+                        theme="danger"
+                        size="small"
+                        title="Удалить"
+                        @click="deleteToolAndLoadTools(tool.id)"
                     >
-                        E
+                        <template #left-icon>
+                            <app-icon name="x" />
+                        </template>
                     </ui-button>
-                </nuxt-link>
+    
+                    <nuxt-link :to="`/tools/edit/${ tool.id }`">
+                        <ui-button
+                            theme="info"
+                            size="small"
+                            title="Изменить"
+                        >
+                            <template #left-icon>
+                                <app-icon name="edit" />
+                            </template>
+                        </ui-button>
+                    </nuxt-link>
+                </div>
             </ui-table-column>
         </ui-table-row>
     </ui-table>
@@ -64,12 +76,12 @@
     const headItems = [
         { title: '#' },
         { title: 'Название', sort: 'name' },
-        { title: 'Описание', sort: 'description' },
+        { title: 'Описание' },
         { title: 'Фото' },
         { title: 'Действия' },
     ];
 
-    const gridColumn = '50px minmax(200px, 1fr) minmax(300px, 2fr) 120px 140px';
+    const gridColumn = '50px minmax(200px, 1fr) minmax(300px, 2fr) 120px 150px';
 </script>
 
 <style scoped lang="scss">
@@ -78,6 +90,16 @@
 
         &__image {
             width: 65px;
+        }
+
+        &__image-empty {
+            display: inline-block;
+            width: 65px;
+        }
+
+        &__buttons {
+            display: flex;
+            gap: 9px;
         }
     }
 </style>
