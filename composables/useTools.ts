@@ -6,8 +6,8 @@ export const useTools = () => {
     const router = useRouter();
 
     const tools = computed(() => toolsStore.toolsSorted);
+    // const tool = computed(() => JSON.parse(JSON.stringify(toolsStore.tool)));
     const tool = computed(() => toolsStore.tool);
-    // const tool = computed(() => toolsStore.tool);
     const sortOrder = computed(() => toolsStore.sortOrder);
     const sortField = computed(() => toolsStore.sortField);
 

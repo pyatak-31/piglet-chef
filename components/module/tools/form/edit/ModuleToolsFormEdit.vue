@@ -47,7 +47,7 @@
             <ui-button
                 theme="secondary"
                 outline
-                type="reset"
+                @on-click="reset"
             >
                 Стереть
             </ui-button>
@@ -68,7 +68,13 @@
 
     const props = defineProps<ToolsFormCreateProps>();
     // await loadTool(props.id);
-    const toolData = computed<ToolRecord>(() => tool.value);
+    // const toolData = computed<ToolRecord>(() => tool.value);
+        const toolData = ref(JSON.parse(JSON.stringify(tool.value)));
+
+        const reset = () => {
+            console.log(JSON.parse(JSON.stringify(tool.value)));
+            toolData.value = JSON.parse(JSON.stringify(tool.value));
+        }
 </script>
 
 <style scoped lang="scss">

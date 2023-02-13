@@ -10,7 +10,7 @@ export const useToolsStore = defineStore('tools', () => {
     const authStore = useAuthStore();
 
     const tools = ref();
-    const tool = ref();
+    const tool = ref({});
     const sortField = ref<SortField>(null);
     const sortOrder = ref<SortOrder>(null);
 
@@ -79,7 +79,7 @@ export const useToolsStore = defineStore('tools', () => {
 
     const editTool = async (id: string, body: ToolRecord) => {
         try {
-            startLoading();
+            // startLoading();
             await authStore.checkToken();
             
             const data = await $fetch<CreateResponse>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools/${ id }.json`, {
@@ -94,7 +94,8 @@ export const useToolsStore = defineStore('tools', () => {
         } catch (error) {
             throw new Error((error as Error).message);
         } finally {
-            completeLoading();
+            
+            // completeLoading();
         }
     };
 
