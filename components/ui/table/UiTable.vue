@@ -4,10 +4,10 @@
                 <ui-table-row :col-sizes="colSizes">
                     <ui-table-head-item
                     class="table__header-item"
-                    v-for="(headItem, index) in headItems"
+                    v-for="({ title, sort }, index) in headItems"
                     :key="index"
-                    :title="headItem.title"
-                    :sort="headItem.sort"
+                    :title="title"
+                    :sort="sort"
                     :sort-field="sortField"
                     :sort-order="sortOrder"
                     @on-sort-by="sortBy"

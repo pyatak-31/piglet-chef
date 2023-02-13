@@ -19,7 +19,14 @@
                     <img :src="tool.image.small" alt="terka">
                 </div>
             </ui-table-column>
-            <ui-table-column><ui-button>Clear</ui-button></ui-table-column>
+            <ui-table-column>
+                <ui-button
+                    theme="danger"
+                    @click="deleteToolAndLoadTools(tool.id)"
+                >
+                    X
+                </ui-button>
+            </ui-table-column>
         </ui-table-row>
     </ui-table>
 </template>
@@ -27,7 +34,7 @@
 <script lang="ts">export default { name: 'ModuleToolsTable' };</script>
 
 <script setup lang="ts">
-    const { tools, isLoading, sortField, sortOrder, loadTools, sortBy } = useTools();
+    const { tools, isLoading, sortField, sortOrder, loadTools, sortBy, deleteToolAndLoadTools } = useTools();
 
     const headItems = [
         { title: '#' },

@@ -27,9 +27,14 @@ export const useTools = () => {
         });
     };
 
+    const deleteToolAndLoadTools = async (id: string) =>{
+        await toolsStore.deleteTool(id);
+        await toolsStore.fetchAll();
+    };
+
     const sortBy = (params: sortParams) => {
         toolsStore.setSortParams(params);
     };
 
-    return { tools, isLoading, sortOrder, sortField, loadTools, create, sortBy }
+    return { tools, isLoading, sortOrder, sortField, loadTools, create, sortBy, deleteToolAndLoadTools }
 };

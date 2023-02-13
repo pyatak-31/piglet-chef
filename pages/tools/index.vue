@@ -10,7 +10,10 @@
             </nuxt-link>
         </div>
 
-        <span v-if="isLoading">Load/.....</span>
+        <app-loader
+            class="tools__loader"
+            v-if="isLoading"
+        />
       
         <module-tools-table
             class="tools__table"
@@ -25,14 +28,17 @@
     definePageMeta({ middleware: ["auth"], pageTransition: { name: 'page' }});
     const { tools, isLoading, loadTools } = useTools();
 
-    const tableHeads = ['#', 'Название', 'Описание', 'Фото', 'Действия'];
-    const tableSizeColumns = '50px 1fr 2fr 150px 140px';
-
     await loadTools();
+
+    const obj = {
+        
+    }
 </script>
 
 <style scoped lang="scss">
     .tools {
+        position: relative;
+        min-height: 100%;
 
         &__head {
             display: flex;
@@ -42,6 +48,13 @@
 
         &__table {
             margin-top: 50px;
+        }
+
+        &__loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 </style>

@@ -63,5 +63,24 @@ export const useToolsStore = defineStore('tools', () => {
         return data;
     };
 
-    return { tools, toolsSorted, error, isLoading, sortOrder, sortField, setSortParams, fetchAll, create };
+    const deleteTool = async (id: string) => {
+        try {
+            startLoading();
+            await authStore.checkToken();
+            const data = await $fetch<CreateResponse>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools/${ id }.json`, {
+                method: 'DELETE',
+                params: {
+                    auth: authStore.token
+                },
+            });
+            console.log('deleted');
+            return data;
+        } catch (error) {
+            throw new Error((error as Error).message);
+        } finally {
+            completeLoading();
+        }
+    };
+
+    return { tools, toolsSorted, error, isLoading, sortOrder, sortField, setSortParams, fetchAll, create, deleteTool };
 });
