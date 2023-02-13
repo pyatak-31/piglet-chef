@@ -8,7 +8,6 @@ export interface ToolRecord {
         medium: string,
         full: string
     };
-    date: Date
 };
 
 export type SortField = null | 'name' | 'description';

@@ -1,17 +1,24 @@
 <template>
-    <div>
-        create
+    <section class="tool-create">
+        <ui-title rank="1">
+            Создать инструмент
+        </ui-title>
 
-        <ui-button @click="create">aadd</ui-button>
-    </div>
+        <module-tools-form-create class="tool-create__form" />
+    </section>
 </template>
+
+<script lang="ts">export default { name: 'ToolsCreatePage' };</script>
 
 <script setup lang="ts">
     definePageMeta({ middleware: ["auth"], pageTransition: { name: 'page' }});
-    
-    const { create } = useTools();
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .tool-create {
 
+        &__form {  
+            margin-top: 50px;
+        }
+    }
 </style>

@@ -1,15 +1,17 @@
 <template>
     <div class="form-input">
-        <input
-            :type="type"
+        <textarea
             :id="id"
             class="form-input__field"
-            :class="{ 'form-input__field--error': error }"
+            :class="{
+                'form-input__field--error': error,
+                'form-input__field--disable-resize': !enableResize,
+            }"
             :required="required"
             v-bind="$attrs"
             :value="modelValue"
             @input="onChange($event)"
-        >
+        ></textarea>
 
         <label
             :for="id"
@@ -28,31 +30,24 @@
     </div>
 </template>
 
-<script lang="ts">export default { name: 'UiInput' };</script>
+<script lang="ts">export default { name: 'UiTextarea' };</script>
 
 <script setup lang="ts">
-    type InputType = 'text' | 'number' | 'password' | 'email' | 'url' | 'tel';
-
-    interface inputProps {
+    interface textareaProps {
         id?: string;
         label?: string;
-        type?: InputType;
-        modelValue: string | number;
+        modelValue: string;
         required?: boolean,
         error?: string;
+        enableResize?: boolean;
     };
 
-    const props = withDefaults(defineProps<inputProps>(), {
-        type: 'text',
-    });
+    const props = defineProps<textareaProps>();
 
     const emit = defineEmits(['update:modelValue']);
 
     const onChange = (event: Event) => {
-        let value: string | number = (event.target as HTMLInputElement).value;
-        if (props.type === 'number') {
-            value = Number(value);
-        }
+        let value: string = (event.target as HTMLInputElement).value;
         emit('update:modelValue', value);
     };
 </script>
@@ -100,6 +95,10 @@ $border-color-error: $danger;
 
         &--error {
             border-color: $border-color-error;
+        }
+
+        &--disable-resize {
+            resize: none;
         }
     }
 

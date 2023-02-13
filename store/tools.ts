@@ -50,7 +50,7 @@ export const useToolsStore = defineStore('tools', () => {
         }
     };
 
-    const create = async (body: ToolRecord) => {
+    const createTool = async (body: ToolRecord) => {
         await authStore.checkToken();
         
         const data = await $fetch<CreateResponse>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools.json`, {
@@ -73,7 +73,7 @@ export const useToolsStore = defineStore('tools', () => {
                     auth: authStore.token
                 },
             });
-            console.log('deleted');
+            
             return data;
         } catch (error) {
             throw new Error((error as Error).message);
@@ -82,5 +82,5 @@ export const useToolsStore = defineStore('tools', () => {
         }
     };
 
-    return { tools, toolsSorted, error, isLoading, sortOrder, sortField, setSortParams, fetchAll, create, deleteTool };
+    return { tools, toolsSorted, error, isLoading, sortOrder, sortField, setSortParams, fetchAll, createTool, deleteTool };
 });
