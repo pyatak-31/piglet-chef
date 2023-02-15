@@ -1,17 +1,15 @@
 import { defineStore } from 'pinia';
-import { ResponseToCreate } from '~~/type/FbDb.interface';
 import { SortOrder } from '~~/type/sorting';
 import { SortField, sortParams, ToolRecord } from '~~/type/tools';
 import { useAuthStore } from './auth';
 
 export const useToolsStore = defineStore('tools', () => {
     const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
-    const config = useRuntimeConfig();
     const { convertDbResponse } = useFirebase();
     const authStore = useAuthStore();
 
-    const tools = ref();
-    const tool = ref<null | object>(null);
+    const tools = ref<null | Array<ToolRecord>>(null);
+    const tool = ref<null | ToolRecord>(null);
     const sortField = ref<SortField>(null);
     const sortOrder = ref<SortOrder>(null);
 
@@ -38,12 +36,14 @@ export const useToolsStore = defineStore('tools', () => {
         console.log(sortOrder.value, sortField.value);
     };
 
-    const fetchAll = async () => {
+    const clearTool = () => { tool.value = null };
+    const { fetchAll, fetchOne, createRecord, editRecord, deleteRecord } = useDbApi('tools');
+
+    const downloadToolList = async () => {
         try {
             startLoading();
-            const data = await $fetch<Array<ToolRecord>>(`${ config.BASE_URL }/tools.json`);
-            tools.value = convertDbResponse(data);
-            console.log(tools.value);
+            const data = await fetchAll();
+            tools.value = convertDbResponse(data as Array<ToolRecord>);
             return data;
         } catch (error) {
             throw new Error((error as Error).message);
@@ -52,11 +52,11 @@ export const useToolsStore = defineStore('tools', () => {
         }
     };
 
-    const fetchOne = async (id: string) => {
+    const downloadToolItem = async (id: string) => {
         try {
             startLoading();
-            const data = await $fetch<ToolRecord>(`${ config.BASE_URL }/tools/${ id }.json`);
-            tool.value = data;
+            const data = await fetchOne(id);
+            tool.value = data as ToolRecord;
             return data;
         } catch (error) {
             throw new Error((error as Error).message);
@@ -68,40 +68,22 @@ export const useToolsStore = defineStore('tools', () => {
     const createTool = async (body: ToolRecord) => {
         try {
             await authStore.checkToken();
-            
-            await $fetch<ResponseToCreate>(`${ config.BASE_URL }/tools.json`, {
-                method: 'POST',
-                params: {
-                    auth: authStore.token
-                },
-                body
-            });
+            await createRecord(body);
         } catch (error) {
             throw new Error((error as Error).message);
         }
     };
 
-    const clearTool = () => {
-        tool.value = null;
-    }
     const editTool = async (id: string, body: ToolRecord) => {
         try {
-            // startLoading();
+            startLoading();
             await authStore.checkToken();
-            
-            await $fetch<ToolRecord>(`${ config.BASE_URL }/tools/${ id }.json`, {
-                method: 'PUT',
-                params: {
-                    auth: authStore.token
-                },
-                body
-            });
-            // tool.value = null;
+            await editRecord(id, body);
         } catch (error) {
             throw new Error((error as Error).message);
         } finally {
             
-            // completeLoading();
+            completeLoading();
         }
     };
 
@@ -109,12 +91,7 @@ export const useToolsStore = defineStore('tools', () => {
         try {
             // startLoading();
             await authStore.checkToken();
-            await $fetch<null>(`${ config.BASE_URL }/tools/1.json`, {
-                method: 'DELETE',
-                params: {
-                    auth: authStore.token
-                },
-            });
+            await deleteRecord(id);
         } catch (error) {
             throw new Error((error as Error).message);
         } finally {
@@ -131,8 +108,8 @@ export const useToolsStore = defineStore('tools', () => {
         sortOrder,
         sortField,
         setSortParams,
-        fetchAll,
-        fetchOne,
+        downloadToolList,
+        downloadToolItem,
         createTool,
         deleteTool,
         editTool,

@@ -14,11 +14,11 @@ export const useTools = () => {
     const isLoading = computed(() => toolsStore.isLoading);
 
     const loadTools = async () => {
-        await useLazyAsyncData(() => toolsStore.fetchAll());
+        await useLazyAsyncData(() => toolsStore.downloadToolList());
     };
 
     const loadTool = async (id: string) => {
-        await useLazyAsyncData(() => toolsStore.fetchOne(id));
+        await useLazyAsyncData(() => toolsStore.downloadToolItem(id));
     };
     
     const createTool = async (body: ToolRecord) => {
@@ -26,10 +26,10 @@ export const useTools = () => {
         router.push('/tools');
     };
 
-    const editTool = async (id: string ,body: ToolRecord) => {
-        toolsStore.startLoading();
+    const editTool = async (id: string, body: ToolRecord) => {
+        
         await toolsStore.editTool(id, body);
-        toolsStore.completeLoading();
+
         router.push('/tools');
         
     };
@@ -37,7 +37,7 @@ export const useTools = () => {
     const deleteToolAndLoadTools = async (id: string) =>{
         toolsStore.startLoading();
         await toolsStore.deleteTool(id);
-        await toolsStore.fetchAll();
+        await toolsStore.downloadToolList();
     };
 
     const sortBy = (params: sortParams) => {
