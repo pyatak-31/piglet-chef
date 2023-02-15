@@ -33,6 +33,9 @@
 <style lang="scss">
     .form {
         position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
 
         &__loader {
             position: absolute;

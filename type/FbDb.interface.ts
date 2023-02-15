@@ -1,3 +1,3 @@
-export interface CreateResponse {
+export interface ResponseToCreate {
     name: string;
 };

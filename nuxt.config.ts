@@ -24,6 +24,7 @@ export default defineNuxtConfig({
         FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
         public: {
             FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+            BASE_URL: process.env.BASE_URL,
             ACCESS_TOKEN: 'access-token',
             REFRESH_TOKEN: 'refresh-token',
         }

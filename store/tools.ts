@@ -1,16 +1,17 @@
 import { defineStore } from 'pinia';
-import { CreateResponse } from '~~/type/FbDb.interface';
+import { ResponseToCreate } from '~~/type/FbDb.interface';
 import { SortOrder } from '~~/type/sorting';
 import { SortField, sortParams, ToolRecord } from '~~/type/tools';
 import { useAuthStore } from './auth';
 
 export const useToolsStore = defineStore('tools', () => {
     const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
+    const config = useRuntimeConfig();
     const { convertDbResponse } = useFirebase();
     const authStore = useAuthStore();
 
     const tools = ref();
-    const tool = ref({});
+    const tool = ref<null | object>(null);
     const sortField = ref<SortField>(null);
     const sortOrder = ref<SortOrder>(null);
 
@@ -40,7 +41,7 @@ export const useToolsStore = defineStore('tools', () => {
     const fetchAll = async () => {
         try {
             startLoading();
-            const data = await $fetch<Array<ToolRecord>>('https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools.json');
+            const data = await $fetch<Array<ToolRecord>>(`${ config.BASE_URL }/tools.json`);
             tools.value = convertDbResponse(data);
             console.log(tools.value);
             return data;
@@ -54,7 +55,7 @@ export const useToolsStore = defineStore('tools', () => {
     const fetchOne = async (id: string) => {
         try {
             startLoading();
-            const data = await $fetch<ToolRecord>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools/${ id }.json`);
+            const data = await $fetch<ToolRecord>(`${ config.BASE_URL }/tools/${ id }.json`);
             tool.value = data;
             return data;
         } catch (error) {
@@ -65,32 +66,37 @@ export const useToolsStore = defineStore('tools', () => {
     };
 
     const createTool = async (body: ToolRecord) => {
-        await authStore.checkToken();
-        
-        const data = await $fetch<CreateResponse>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools.json`, {
-            method: 'POST',
-            params: {
-                auth: authStore.token
-            },
-            body
-        });
-        return data;
+        try {
+            await authStore.checkToken();
+            
+            await $fetch<ResponseToCreate>(`${ config.BASE_URL }/tools.json`, {
+                method: 'POST',
+                params: {
+                    auth: authStore.token
+                },
+                body
+            });
+        } catch (error) {
+            throw new Error((error as Error).message);
+        }
     };
 
+    const clearTool = () => {
+        tool.value = null;
+    }
     const editTool = async (id: string, body: ToolRecord) => {
         try {
             // startLoading();
             await authStore.checkToken();
             
-            const data = await $fetch<CreateResponse>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools/${ id }.json`, {
+            await $fetch<ToolRecord>(`${ config.BASE_URL }/tools/${ id }.json`, {
                 method: 'PUT',
                 params: {
                     auth: authStore.token
                 },
                 body
             });
-            
-            return data;
+            // tool.value = null;
         } catch (error) {
             throw new Error((error as Error).message);
         } finally {
@@ -101,20 +107,18 @@ export const useToolsStore = defineStore('tools', () => {
 
     const deleteTool = async (id: string) => {
         try {
-            startLoading();
+            // startLoading();
             await authStore.checkToken();
-            const data = await $fetch<CreateResponse>(`https://piglet-chef-default-rtdb.europe-west1.firebasedatabase.app/tools/${ id }.json`, {
+            await $fetch<null>(`${ config.BASE_URL }/tools/1.json`, {
                 method: 'DELETE',
                 params: {
                     auth: authStore.token
                 },
             });
-            
-            return data;
         } catch (error) {
             throw new Error((error as Error).message);
         } finally {
-            completeLoading();
+            // completeLoading();
         }
     };
 
@@ -131,6 +135,9 @@ export const useToolsStore = defineStore('tools', () => {
         fetchOne,
         createTool,
         deleteTool,
-        editTool
+        editTool,
+        startLoading,
+        completeLoading,
+        clearTool,
     };
 });

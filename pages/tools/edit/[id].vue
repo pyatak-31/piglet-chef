@@ -6,14 +6,16 @@
 
         <app-loader
             class="tool-edit__loader"
-            v-if="isLoading"
+            v-if="isLoading && !tool"
         />
 
         <module-tools-form-edit
             class="tool-edit__form"
             :id="id"
-            v-else
+            v-else-if="tool"
         />
+
+        <span v-else-if="!isLoading && !tool">EMPTY</span>
     </section>
 </template>
 
@@ -21,11 +23,12 @@
 
 <script setup lang="ts">
     definePageMeta({ middleware: ["auth"], pageTransition: { name: 'page' }});
-    const { isLoading, loadTool } = useTools();
-
+    const { tool, isLoading, loadTool } = useTools();
     const route = useRoute();
-    await loadTool(route.params.id as string);
+
     const id: string = route.params.id as string;
+    await loadTool(id);
+    
 </script>
 
 <style scoped lang="scss">

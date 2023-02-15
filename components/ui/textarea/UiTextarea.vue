@@ -64,6 +64,7 @@ $border-color-error: $danger;
     flex-direction: column;
 
     &__label {
+        align-self: flex-start;
         order: 0;
         margin-bottom: 5px;
         padding-left: 0px;

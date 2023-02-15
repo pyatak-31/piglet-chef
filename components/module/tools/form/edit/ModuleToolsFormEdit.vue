@@ -5,6 +5,7 @@
         @on-submit="editTool(id, toolData)"
     >
         <ui-input
+            id="tool_name"
             label="Название"
             placeholder="Введите название"
             required
@@ -12,6 +13,7 @@
         />
 
         <ui-textarea
+            id="tool_description"
             label="Описание"
             placeholder="Введите описание"
             rows="10"
@@ -19,18 +21,21 @@
         />
 
         <ui-input
+            id="tool_small_image"
             label="Малое изображение"
             placeholder="Введите адрес ссылки"
             v-model.trim="toolData.image.small"
         />
 
         <ui-input
+            id="tool_medium_image"
             label="Среднее изображение"
             placeholder="Введите адрес ссылки"
             v-model.trim="toolData.image.medium"
         />
 
         <ui-input
+            id="tool_full_image"
             label="Большое изображение"
             placeholder="Введите адрес ссылки"
             v-model.trim="toolData.image.full"
@@ -60,28 +65,27 @@
 <script setup lang="ts">
     import { ToolRecord } from '~~/type/tools';
 
-    const { tool, isLoading, loadTool, editTool } = useTools();
+    const { tool, isLoading, editTool, clearTool } = useTools();
 
     interface ToolsFormCreateProps {
         id: string,
     }
 
     const props = defineProps<ToolsFormCreateProps>();
-    // await loadTool(props.id);
-    // const toolData = computed<ToolRecord>(() => tool.value);
-        const toolData = ref(JSON.parse(JSON.stringify(tool.value)));
+    
+    const toolData = ref<ToolRecord>(JSON.parse(JSON.stringify(tool.value)));
 
-        const reset = () => {
-            console.log(JSON.parse(JSON.stringify(tool.value)));
-            toolData.value = JSON.parse(JSON.stringify(tool.value));
-        }
+    const reset = () => {
+        toolData.value = JSON.parse(JSON.stringify(tool.value));   
+    };
+
+    onUnmounted(() => {
+        clearTool();
+    });
 </script>
 
 <style scoped lang="scss">
     .form-edit {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
         
         &__buttons {
             display: flex;

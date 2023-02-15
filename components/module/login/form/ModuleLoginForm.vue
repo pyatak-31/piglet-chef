@@ -7,7 +7,6 @@
         <ui-input
             id="email"
             type="text"
-            class="login-form__el"
             label="Email"
             placeholder="Введите email"
             required
@@ -17,7 +16,6 @@
         <ui-input
             id="password"
             type="password"
-            class="login-form__el"
             label="Пароль"
             placeholder="Введите пароль"
             required
@@ -70,11 +68,6 @@
 
 <style lang="scss">
     .login-form {
-        &__el {
-            & + & {
-                margin-top: 18px;
-            }
-        }
 
         &__error {
             display: inline-block;

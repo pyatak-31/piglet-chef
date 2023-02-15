@@ -27,18 +27,25 @@ export const useTools = () => {
     };
 
     const editTool = async (id: string ,body: ToolRecord) => {
+        toolsStore.startLoading();
         await toolsStore.editTool(id, body);
+        toolsStore.completeLoading();
         router.push('/tools');
         
     };
 
     const deleteToolAndLoadTools = async (id: string) =>{
+        toolsStore.startLoading();
         await toolsStore.deleteTool(id);
         await toolsStore.fetchAll();
     };
 
     const sortBy = (params: sortParams) => {
         toolsStore.setSortParams(params);
+    };
+
+    const clearTool = () => {
+        toolsStore.clearTool();
     };
 
     return {
@@ -53,5 +60,6 @@ export const useTools = () => {
         sortBy,
         deleteToolAndLoadTools,
         editTool,
+        clearTool,
     };
 };
