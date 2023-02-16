@@ -4,7 +4,7 @@
             Создать инструмент
         </ui-title>
 
-        <module-tools-form-create class="tool-create__form" />
+        <module-tools-form-create  class="tool-create__form" />
     </section>
 </template>
 
@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
     definePageMeta({ middleware: ["auth"], pageTransition: { name: 'page' }});
+    const { tool, isLoading, loadTool } = useTools();
 </script>
 
 <style scoped lang="scss">

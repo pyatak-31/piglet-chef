@@ -1,6 +1,7 @@
 <template>
     <app-form
         class="form-create"
+        :is-loading="isLoading"
         @on-submit="createTool(newToolData)"
     >
         <ui-input
@@ -59,7 +60,7 @@
 <script setup lang="ts">
     import { ToolRecord } from '~~/type/tools';
 
-    const { createTool } = useTools();
+    const { isLoading, createTool } = useTools();
 
     const newToolData: ToolRecord = {
         name: '',

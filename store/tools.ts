@@ -39,6 +39,17 @@ export const useToolsStore = defineStore('tools', () => {
     const clearTool = () => { tool.value = null };
     const { fetchAll, fetchOne, createRecord, editRecord, deleteRecord } = useDbApi('tools');
 
+    const baseAction = async (callback: Function) => {
+        try {
+            startLoading();
+            await callback();
+        } catch (error) {
+            throw new Error((error as Error).message);
+        } finally {
+            completeLoading();
+        }
+    };
+
     const downloadToolList = async () => {
         try {
             startLoading();
@@ -67,10 +78,13 @@ export const useToolsStore = defineStore('tools', () => {
 
     const createTool = async (body: ToolRecord) => {
         try {
+            startLoading();
             await authStore.checkToken();
             await createRecord(body);
         } catch (error) {
             throw new Error((error as Error).message);
+        } finally {
+            completeLoading();
         }
     };
 
@@ -82,7 +96,6 @@ export const useToolsStore = defineStore('tools', () => {
         } catch (error) {
             throw new Error((error as Error).message);
         } finally {
-            
             completeLoading();
         }
     };

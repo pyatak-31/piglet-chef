@@ -12,13 +12,16 @@
 
         <app-loader
             class="tools__loader"
-            v-if="isLoading"
+            v-if="isLoading && !tools"
         />
       
         <module-tools-table
             class="tools__table"
-            v-else    
+            v-else-if="!isLoading && tools"    
         />
+
+        <span v-else-if="!isLoading && !tools">
+        Empty</span>
     </div>
 </template>
 
@@ -29,10 +32,6 @@
     const { tools, isLoading, loadTools } = useTools();
 
     await loadTools();
-
-    const obj = {
-        
-    }
 </script>
 
 <style scoped lang="scss">

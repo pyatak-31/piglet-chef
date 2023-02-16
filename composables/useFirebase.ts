@@ -37,7 +37,9 @@ export const useFirebase = () => {
         return answer;
     };
 
-    const convertDbResponse = (data: Object) => Object.entries(data).map(([id, value]) => ({ ...value, id }));
+    const convertDbResponse = (data: Object) => {
+        return Object.entries(data).map(([id, value]) => ({ ...value, id }));
+    };
 
     return { getErrorMessage, convertDbResponse };
 };

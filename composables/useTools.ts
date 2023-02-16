@@ -6,7 +6,6 @@ export const useTools = () => {
     const router = useRouter();
 
     const tools = computed(() => toolsStore.toolsSorted);
-    // const tool = computed(() => JSON.parse(JSON.stringify(toolsStore.tool)));
     const tool = computed(() => toolsStore.tool);
     const sortOrder = computed(() => toolsStore.sortOrder);
     const sortField = computed(() => toolsStore.sortField);
@@ -14,7 +13,7 @@ export const useTools = () => {
     const isLoading = computed(() => toolsStore.isLoading);
 
     const loadTools = async () => {
-        await useLazyAsyncData(() => toolsStore.downloadToolList());
+        await useLazyAsyncData(async () => await toolsStore.downloadToolList());
     };
 
     const loadTool = async (id: string) => {
@@ -23,7 +22,9 @@ export const useTools = () => {
     
     const createTool = async (body: ToolRecord) => {
         await toolsStore.createTool(body);
-        router.push('/tools');
+        // if (!toolsStore.hasError) {
+            router.push('/tools');
+        // }
     };
 
     const editTool = async (id: string, body: ToolRecord) => {
