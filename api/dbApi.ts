@@ -1,6 +1,6 @@
 import { useAuthStore } from "~~/store/auth";
 
-export const useDbApi = (tableName: string) => {
+export const dbApi = (tableName: string) => {
     const config = useRuntimeConfig();
     const authStore = useAuthStore();
 

@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
+import { dbApi } from '~~/api/dbApi';
 import { SortOrder } from '~~/type/sorting';
 import { SortField, sortParams, ToolRecord } from '~~/type/tools';
 import { useAuthStore } from './auth';
 
 export const useToolsStore = defineStore('tools', () => {
     const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
+    const { fetchAll, fetchOne, createRecord, editRecord, deleteRecord } = dbApi('tools');
     const { convertDbResponse } = useFirebase();
     const authStore = useAuthStore();
 
@@ -37,18 +39,7 @@ export const useToolsStore = defineStore('tools', () => {
     };
 
     const clearTool = () => { tool.value = null };
-    const { fetchAll, fetchOne, createRecord, editRecord, deleteRecord } = useDbApi('tools');
-
-    const baseAction = async (callback: Function) => {
-        try {
-            startLoading();
-            await callback();
-        } catch (error) {
-            throw new Error((error as Error).message);
-        } finally {
-            completeLoading();
-        }
-    };
+    
 
     const downloadToolList = async () => {
         try {

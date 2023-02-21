@@ -3,7 +3,6 @@ export const useStore = () => {
     const isLoading = ref<boolean>(false);
 
     const hasError = computed<boolean>(() => Boolean(error.value));
-    // const errorMessage = computed(() => error.value?.message);
 
     const clearError = () => { error.value = undefined };
     const startLoading = () => { isLoading.value = true };
