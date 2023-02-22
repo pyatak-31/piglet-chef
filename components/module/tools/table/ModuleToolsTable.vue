@@ -72,11 +72,12 @@
 
 <script setup lang="ts">
     const { tools, isLoading, sortField, sortOrder, loadTools, sortBy, deleteToolAndLoadTools } = useTools();
-    
+    // const { sortField: a } = useSort();
+
     const headItems = [
         { title: '#' },
         { title: 'Название', sort: 'name' },
-        { title: 'Описание' },
+        { title: 'Описание', sort: 'description' },
         { title: 'Фото' },
         { title: 'Действия' },
     ];

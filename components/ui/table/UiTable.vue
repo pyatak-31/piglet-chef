@@ -23,8 +23,6 @@
 <script lang="ts">export default { name: 'UiTable' };</script>
 
 <script setup lang="ts">
-    import { SortOrder } from '~~/type/sorting';
-
     interface TableHeadItem {
         title: string,
         sort?: string,
@@ -40,20 +38,10 @@
 
     const emit = defineEmits(['onSortBy']);
 
-    const sortOrder = ref<SortOrder>(null);
-
+    const { sortOrder, getSortParams } = useSort();
+   
     const sortBy = (sortField: string) => {
-        if (props.sortField === sortField) {
-            switch (sortOrder.value) {
-                case null: sortOrder.value = 'asc'; break;
-                case 'asc': sortOrder.value = 'desc'; break;
-                case 'desc': sortOrder.value = null; break;
-            }
-        } else {
-            sortOrder.value = 'asc';
-        }
-
-        emit('onSortBy', { sortField, sortOrder: sortOrder.value });
+        emit('onSortBy', getSortParams(props.sortField!, sortField));
     };
 </script>
 
