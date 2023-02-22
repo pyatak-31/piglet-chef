@@ -1,8 +1,6 @@
-import { SortOrder } from "./sorting";
-
-export interface ToolRecord {
-    name: string;
-    description: string;
+export interface RequestToolBody {
+    name: string,
+    description: string,
     image: {
         small: string,
         medium: string,
@@ -10,9 +8,8 @@ export interface ToolRecord {
     };
 };
 
-export type SortField = null | 'name' | 'description';
-
-export interface sortParams {
-    sortField: SortField,
-    sortOrder: SortOrder
+export interface ToolRecord extends RequestToolBody{
+    id: string,
 };
+
+export type ToolsSortField = null | 'name' | 'description';

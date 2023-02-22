@@ -71,13 +71,12 @@
 <script lang="ts">export default { name: 'ModuleToolsTable' };</script>
 
 <script setup lang="ts">
-    const { tools, isLoading, sortField, sortOrder, loadTools, sortBy, deleteToolAndLoadTools } = useTools();
-    // const { sortField: a } = useSort();
+    const { tools, isLoading, sortField, sortBy, deleteToolAndLoadTools } = useTools();
 
     const headItems = [
         { title: '#' },
-        { title: 'Название', sort: 'name' },
-        { title: 'Описание', sort: 'description' },
+        { title: 'Название', sortName: 'name' },
+        { title: 'Описание', sortName: 'description' },
         { title: 'Фото' },
         { title: 'Действия' },
     ];

@@ -1,5 +1,6 @@
 import { useToolsStore } from '~~/store/tools';
-import { sortParams, ToolRecord } from '~~/type/tools';
+import { SortParams } from '~~/type/sorting';
+import { ToolRecord } from '~~/type/tools';
 
 export const useTools = () => {
     const toolsStore = useToolsStore();
@@ -41,7 +42,7 @@ export const useTools = () => {
         await toolsStore.downloadToolList();
     };
 
-    const sortBy = (params: sortParams) => {
+    const sortBy = (params: SortParams) => {
         toolsStore.setSortParams(params);
     };
 

@@ -1,45 +1,35 @@
 import { defineStore } from 'pinia';
 import { dbApi } from '~~/api/dbApi';
-import { SortOrder } from '~~/type/sorting';
-import { SortField, sortParams, ToolRecord } from '~~/type/tools';
+import { RequestToolBody, ToolRecord, ToolsSortField } from '~~/type/tools';
 import { useAuthStore } from './auth';
 
 export const useToolsStore = defineStore('tools', () => {
-    const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
+    const { isLoading,  startLoading, completeLoading } = useLoadingStore();
+    const { error, hasError, clearError, addError } = useErrorStore();
+    const { sortField, sortOrder, setSortParams} = useSortStore();
     const { fetchAll, fetchOne, createRecord, editRecord, deleteRecord } = dbApi('tools');
     const { convertDbResponse } = useFirebase();
     const authStore = useAuthStore();
 
     const tools = ref<null | Array<ToolRecord>>(null);
     const tool = ref<null | ToolRecord>(null);
-    const sortField = ref<SortField>(null);
-    const sortOrder = ref<SortOrder>(null);
-
+   
     const toolsSorted = computed(() => {
-        if (sortOrder.value == null || sortField.value == null) {
+        if (sortOrder.value === null || sortField.value === null) {
             return tools.value;
         } else {
+            const toolsSortField = sortField.value as ToolsSortField;
             return JSON.parse(JSON.stringify(tools.value)).sort((a: ToolRecord, b:ToolRecord) => {
                 let modifier = 1;
                 if (sortOrder.value === 'desc') modifier = -1;
-                if (a[sortField.value!] < b[sortField.value!]) return -1 * modifier;
-                if (a[sortField.value!] > b[sortField.value!]) return 1 * modifier;
+                if (a[toolsSortField!] < b[toolsSortField!]) return -1 * modifier;
+                if (a[toolsSortField!] > b[toolsSortField!]) return 1 * modifier;
                 return 0;
             });
         }
     });
 
-    const setSortParams = (params: sortParams) => {
-        sortField.value = params.sortField;
-        sortOrder.value = params.sortOrder;
-        if (sortOrder.value === null) {
-            sortField.value = null;
-        }
-        console.log(sortOrder.value, sortField.value);
-    };
-
     const clearTool = () => { tool.value = null };
-    
 
     const downloadToolList = async () => {
         try {
@@ -47,8 +37,9 @@ export const useToolsStore = defineStore('tools', () => {
             const data = await fetchAll();
             tools.value = convertDbResponse(data as Array<ToolRecord>);
             return data;
-        } catch (error) {
-            throw new Error((error as Error).message);
+        } catch (err) {
+            console.log(123)
+            throw new Error((err as Error).message);
         } finally {
             completeLoading();
         }
@@ -67,7 +58,7 @@ export const useToolsStore = defineStore('tools', () => {
         }
     };
 
-    const createTool = async (body: ToolRecord) => {
+    const createTool = async (body: RequestToolBody) => {
         try {
             startLoading();
             await authStore.checkToken();
@@ -79,7 +70,7 @@ export const useToolsStore = defineStore('tools', () => {
         }
     };
 
-    const editTool = async (id: string, body: ToolRecord) => {
+    const editTool = async (id: string, body: RequestToolBody) => {
         try {
             startLoading();
             await authStore.checkToken();

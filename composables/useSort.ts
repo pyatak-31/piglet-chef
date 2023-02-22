@@ -1,10 +1,9 @@
-import { SortOrder } from "~~/type/sorting";
-import { SortField, sortParams } from "~~/type/tools";
+import { SortField, SortOrder, SortParams } from "~~/type/sorting";
 
 export const useSort = () => {
     const sortOrder = ref<SortOrder>(null);
 
-    const getSortParams = (oldSortField: string, chosenSortField: string) => {
+    const getSortParams = (oldSortField: SortField = null, chosenSortField: SortField): SortParams => {
         if (oldSortField === chosenSortField) {
             switch (sortOrder.value) {
                 case null: sortOrder.value = 'asc'; break;

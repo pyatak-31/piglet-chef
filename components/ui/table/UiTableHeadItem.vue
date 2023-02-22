@@ -3,8 +3,8 @@
         {{ title }}
         <button
             :class="sortBtnClass"
-            v-if="sort"
-            @click="onSortBy(sort)"    
+            v-if="sortName"
+            @click="onSortBy(sortName)"    
         >
             <i class="sort-btn__icon">
                 <app-icon name="carretDown" />
@@ -18,7 +18,7 @@
 <script setup lang="ts">
     interface TableHeadItemProps {
         title: string;
-        sort?: string;
+        sortName?: string;
         sortField?: null | string;
         sortOrder?: null | string;
     }
@@ -28,7 +28,7 @@
     const emit = defineEmits(['onSortBy']);
 
     const sortOrderValue = computed(() => {
-        if (props.sortField === props.sort) {
+        if (props.sortField === props.sortName) {
             return props.sortOrder;
         } else {
             return null;

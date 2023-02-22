@@ -4,10 +4,10 @@
                 <ui-table-row :col-sizes="colSizes">
                     <ui-table-head-item
                     class="table__header-item"
-                    v-for="({ title, sort }, index) in headItems"
+                    v-for="({ title, sortName }, index) in headItems"
                     :key="index"
                     :title="title"
-                    :sort="sort"
+                    :sort-name="sortName"
                     :sort-field="sortField"
                     :sort-order="sortOrder"
                     @on-sort-by="sortBy"
@@ -25,7 +25,7 @@
 <script setup lang="ts">
     interface TableHeadItem {
         title: string,
-        sort?: string,
+        sortName?: string,
     };
 
     interface TableProps {
@@ -41,7 +41,7 @@
     const { sortOrder, getSortParams } = useSort();
    
     const sortBy = (sortField: string) => {
-        emit('onSortBy', getSortParams(props.sortField!, sortField));
+        emit('onSortBy', getSortParams(props.sortField, sortField));
     };
 </script>
 
