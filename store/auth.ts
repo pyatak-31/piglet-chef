@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
-import { LoginRequestData, LoginResponseData, RefreshResponseData } from '~~/type/auth.interface';
+import { DecodeToken, LoginRequestData } from '~~/type/auth';
 import jwtDecode from "jwt-decode";
-import { DecodeToken } from "~~/type/auth.interface";
+import { ResponseFirebaseError } from '~~/type/error';
+import { authApi } from '~~/api/authApi';
 
 export const useAuthStore = defineStore('auth', () => {
-    const { isLoading, error, hasError, clearError, addError, startLoading, completeLoading } = useStore();
-    const { getErrorMessage } = useFirebase();
+    const { isLoading,  startLoading, completeLoading } = useLoadingStore();
+    const { error, hasError, clearError, addError } = useErrorStore();
+    const { signIn, refreshToken } = authApi();
+    const { getErrorMessage, getMessage } = useFirebase();
     const config = useRuntimeConfig();
     const cookieAccessToken = useCookie(config.public.ACCESS_TOKEN);
     const cookieRefreshToken = useCookie(config.public.REFRESH_TOKEN);
@@ -28,46 +31,30 @@ export const useAuthStore = defineStore('auth', () => {
     });
 
     // actions
-    const login = async (body: LoginRequestData) => {
-        startLoading();
-        const { data, error: responseError } = await useFetch<LoginResponseData>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword`, {
-            method: 'POST',
-            params: {
-                key: config.FIREBASE_API_KEY
-            },
-            body: { ...body, returnSecureToken: true }
-        });
-        
-        if (data.value) {
-            token.value = data.value?.idToken;
-            cookieAccessToken.value = data.value.idToken;
-            cookieRefreshToken.value = data.value.refreshToken;
+    const login = async (body: LoginRequestData) => { 
+        try {
+            startLoading();
+            const data = await signIn(body);
+            token.value = data.idToken;
+            cookieAccessToken.value = data.idToken;
+            cookieRefreshToken.value = data.refreshToken;
             clearError();
+        } catch (err) {
+            addError(getErrorMessage((err as ResponseFirebaseError).data.error.errors));
+        } finally {
+            completeLoading();
         }
-
-        completeLoading();
-        if (responseError.value) {
-            // error.value = getErrorMessage(responseError.value.data.error.errors);
-            addError(getErrorMessage(responseError.value.data.error.errors));
-        } 
     };
 
     const refresh = async () => {
         try {
-            const data = await $fetch<RefreshResponseData>(`https://securetoken.googleapis.com/v1/token`, {
-                method: 'POST',
-                params: {
-                    key: config.FIREBASE_API_KEY
-                },
-                body: { refresh_token: cookieRefreshToken.value, grant_type: 'refresh_token' }
-            });
-            
+            const data = await refreshToken(cookieAccessToken.value);
             token.value = data.access_token;
             cookieAccessToken.value = token.value;
             cookieRefreshToken.value = data.refresh_token;
             clearError();
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            addError(getMessage((err as ResponseFirebaseError).data.error));
         }
     };
 
@@ -84,5 +71,16 @@ export const useAuthStore = defineStore('auth', () => {
         }
     };
 
-    return { token, error, hasError, isLoading, isAuth, isValidToken, login, logout, refresh, checkToken };
+    return {
+        token,
+        error,
+        hasError,
+        isLoading,
+        isAuth,
+        isValidToken,
+        login,
+        logout,
+        refresh,
+        checkToken
+    };
 });

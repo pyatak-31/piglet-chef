@@ -2,7 +2,7 @@ import { useAuthStore } from '@/store/auth';
 // import { isValidToken } from "~~/use/isValidToken";
 
 import jwtDecode from "jwt-decode";
-import { DecodeToken } from "~~/type/auth.interface";
+import { DecodeToken } from "~~/type/auth";
 
 const isValidToken = (token: string) => {
     const jwtData = jwtDecode<DecodeToken>(token) || {};
